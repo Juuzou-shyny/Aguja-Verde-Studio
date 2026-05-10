@@ -95,7 +95,7 @@ public class PedidosController : ControllerBase
     }
 
     // GET api/pedidos — solo admin
-    [Authorize]
+    [Authorize(Roles = "admin")]
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -124,7 +124,7 @@ public class PedidosController : ControllerBase
     }
 
     // GET api/pedidos/5 — solo admin
-    [Authorize]
+    [Authorize(Roles = "admin")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -155,7 +155,7 @@ public class PedidosController : ControllerBase
     }
 
     // PATCH api/pedidos/5/estado — solo admin
-    [Authorize]
+    [Authorize(Roles = "admin")]
     [HttpPatch("{id}/estado")]
     public async Task<IActionResult> UpdateEstado(int id, [FromBody] EstadoRequest request)
     {
