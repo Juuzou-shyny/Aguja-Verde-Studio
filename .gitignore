@@ -1,0 +1,17 @@
+
+# Build output
+bin/
+obj/
+
+# User secrets / config local
+appsettings.Development.json
+
+# Visual Studio
+.vs/
+*.user
+
+# Rider / JetBrains
+.idea/
+
+# .NET
+global.json 
