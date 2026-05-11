@@ -45,7 +45,7 @@ public class ProductosController : ControllerBase
     }
 
     // POST api/productos — solo admin
-    [Authorize]
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] ProductoRequest request)
     {
@@ -83,7 +83,7 @@ public class ProductosController : ControllerBase
     }
 
     // PUT api/productos/5 — solo admin
-    [Authorize]
+    [Authorize(Roles = "admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] ProductoRequest request)
     {
@@ -121,7 +121,7 @@ public class ProductosController : ControllerBase
     }
 
     // DELETE api/productos/5 — solo admin (soft delete)
-    [Authorize]
+    [Authorize(Roles = "admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

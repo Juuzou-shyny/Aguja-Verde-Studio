@@ -18,7 +18,7 @@ public class Usuario
     public string PasswordHash { get; set; } = string.Empty;
 
     [Column("rol")]
-    public string Rol { get; set; } = "admin";
+    public string Rol { get; set; } = "cliente";
 
     [Column("creado_en")]
     public DateTime CreadoEn { get; set; } = DateTime.UtcNow;
