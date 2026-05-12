@@ -22,4 +22,7 @@ public class Usuario
 
     [Column("creado_en")]
     public DateTime CreadoEn { get; set; } = DateTime.UtcNow;
+
+    [Column("nombre")]
+    public string Nombre { get; set; } = string.Empty;
 }

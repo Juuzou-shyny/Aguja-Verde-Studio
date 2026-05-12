@@ -25,7 +25,8 @@ public class UsuariosController : ControllerBase
 			.OrderBy(u => u.CreadoEn)
 			.Select(u => new
 			{
-				u.Id,
+                u.Nombre,
+                u.Id,
 				u.Email,
 				u.Rol,
 				u.CreadoEn
@@ -43,7 +44,8 @@ public class UsuariosController : ControllerBase
 			.Where(u => u.Id == id)
 			.Select(u => new
 			{
-				u.Id,
+                u.Nombre,
+                u.Id,
 				u.Email,
 				u.Rol,
 				u.CreadoEn

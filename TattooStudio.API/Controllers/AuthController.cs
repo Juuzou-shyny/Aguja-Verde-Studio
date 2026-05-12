@@ -48,6 +48,7 @@ public class AuthController : ControllerBase
 
         var usuario = new TattooStudio.API.Models.Usuario
         {
+            Nombre = request.Nombre,
             Email = request.Email,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
             Rol = "cliente",  // siempre cliente, nunca admin
@@ -59,17 +60,12 @@ public class AuthController : ControllerBase
 
         return CreatedAtAction(null, null, new
         {
+            usuario.Nombre,
             usuario.Id,
             usuario.Email,
             usuario.Rol,
             usuario.CreadoEn
         });
-    }
-
-    [HttpGet("hash/{password}")]
-    public IActionResult GenerarHash(string password)
-    {
-        return Ok(new { hash = BCrypt.Net.BCrypt.HashPassword(password) });
     }
 
     private string GenerarToken(string email, string rol)
@@ -99,4 +95,4 @@ public class AuthController : ControllerBase
 }
 
 public record LoginRequest(string Email, string Password);
-public record RegisterRequest(string Email, string Password);
+public record RegisterRequest(string Email, string Password, string Nombre);
