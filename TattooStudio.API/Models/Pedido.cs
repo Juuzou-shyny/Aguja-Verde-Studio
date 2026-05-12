@@ -31,6 +31,12 @@ public class Pedido
     [Column("creado_en")]
     public DateTime CreadoEn { get; set; } = DateTime.UtcNow;
 
+    [Column("usuario_id")]
+    public int? UsuarioId { get; set; }
+
+    [ForeignKey("UsuarioId")]
+    public Usuario? Usuario { get; set; }
+
     // Navegación
     public ICollection<LineaPedido> Lineas { get; set; } = new List<LineaPedido>();
 }

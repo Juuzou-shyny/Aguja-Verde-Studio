@@ -23,7 +23,7 @@ public class AppDbContext : DbContext
         // Enum como string en MySQL
         modelBuilder.Entity<Usuario>()
             .Property(u => u.Rol)
-            .HasColumnType("enum('admin')");
+            .HasColumnType("enum('admin','cliente')");
 
         modelBuilder.Entity<Producto>()
             .Property(p => p.Categoria)
@@ -36,5 +36,11 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<ProductoTalla>()
             .Property(pt => pt.Talla)
             .HasColumnType("enum('XS','S','M','L','XL','XXL')");
+
+        modelBuilder.Entity<Pedido>()
+            .HasOne(p => p.Usuario)
+            .WithMany()
+            .HasForeignKey(p => p.UsuarioId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }
