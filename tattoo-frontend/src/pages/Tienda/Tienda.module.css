@@ -1,0 +1,95 @@
+.page { padding: 120px 64px 80px; min-height: 100vh; }
+
+.header { margin-bottom: 64px; }
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 6rem);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--off-white);
+  margin-bottom: 16px;
+}
+.sub {
+  font-style: italic;
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: var(--ink);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: border-color 0.3s, transform 0.3s;
+}
+.card:hover { border-color: var(--gold); transform: translateY(-4px); }
+
+.cardImg {
+  width: 100%; height: 260px;
+  background: linear-gradient(135deg, #1a1a1a, #111);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.1);
+  text-transform: uppercase;
+}
+
+.cardInfo { padding: 16px 20px 20px; }
+.cardName {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--off-white);
+}
+.cardPrice {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--gold);
+  margin-top: 6px;
+}
+.cardBtn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 10px;
+  margin-top: 12px;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.cardBtn:hover { background: var(--gold); color: var(--black); }
+
+/* Skeletons */
+.loading {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+}
+.skeleton {
+  height: 360px;
+  background: linear-gradient(90deg, var(--ink) 25%, #252525 50%, var(--ink) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (max-width: 768px) {
+  .page { padding: 100px 24px 60px; }
+}
