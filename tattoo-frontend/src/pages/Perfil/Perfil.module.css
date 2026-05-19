@@ -1,0 +1,53 @@
+.page { padding: 120px 64px 80px; min-height: 100vh; }
+
+.header { margin-bottom: 56px; }
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 5rem);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--off-white);
+}
+
+.card {
+  background: var(--ink);
+  border: 1px solid rgba(201,168,76,0.15);
+  padding: 40px;
+  max-width: 480px;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.avatarLarge {
+  width: 64px; height: 64px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--black);
+  flex-shrink: 0;
+}
+
+.info { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+
+.infoRow { display: flex; flex-direction: column; gap: 6px; }
+.infoLabel {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.infoValue {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--off-white);
+}
+
+@media (max-width: 768px) {
+  .page { padding: 100px 24px 60px; }
+}

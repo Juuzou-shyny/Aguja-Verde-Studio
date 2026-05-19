@@ -1,0 +1,187 @@
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 48px;
+  background: linear-gradient(to bottom, rgba(10,10,10,0.97), transparent);
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+}
+
+.links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+.links a {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--off-white);
+  opacity: 0.8;
+  transition: opacity var(--transition), color var(--transition);
+}
+.links a:hover { opacity: 1; color: var(--gold); }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Carrito */
+.cartBtn {
+  position: relative;
+  background: none;
+  border: none;
+  color: var(--off-white);
+  opacity: 0.8;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  transition: opacity var(--transition), color var(--transition);
+}
+.cartBtn:hover { opacity: 1; color: var(--gold); }
+.cartBtn svg { width: 20px; height: 20px; }
+
+.badge {
+  position: absolute;
+  top: 0; right: 0;
+  background: var(--gold);
+  color: var(--black);
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  font-weight: 700;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: scaleIn 0.2s ease;
+}
+
+/* Login btn */
+.loginBtn {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--off-white);
+  background: none;
+  border: 1px solid rgba(240,235,227,0.25);
+  padding: 8px 20px;
+  transition: border-color var(--transition), color var(--transition);
+}
+.loginBtn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* User menu */
+.userMenu { position: relative; }
+
+.userTrigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 7px 14px;
+  transition: border-color var(--transition);
+}
+.userTrigger:hover { border-color: var(--gold); }
+
+.avatar {
+  width: 24px; height: 24px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--black);
+}
+
+.userName {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--off-white);
+}
+
+.chevron {
+  width: 12px; height: 12px;
+  stroke: var(--muted);
+  transition: transform var(--transition);
+}
+.chevronOpen { transform: rotate(180deg); }
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: 210px;
+  background: var(--ink);
+  border: 1px solid rgba(201,168,76,0.2);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+  animation: scaleIn 0.18s ease;
+  z-index: 200;
+}
+
+.dropHeader {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.dropName {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--off-white);
+}
+.dropEmail {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.dropItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 20px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--off-white);
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background var(--transition), color var(--transition);
+}
+.dropItem:hover { background: rgba(201,168,76,0.07); color: var(--gold); }
+.dropItem svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+.dropSep { height: 1px; background: rgba(255,255,255,0.06); margin: 4px 0; }
+
+.dropLogout { color: var(--error); }
+.dropLogout:hover { background: rgba(224,85,85,0.07); color: var(--error); }
+
+@media (max-width: 768px) {
+  .nav { padding: 16px 24px; }
+  .links { display: none; }
+  .userName { display: none; }
+}
