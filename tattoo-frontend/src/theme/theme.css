@@ -4,14 +4,15 @@ html { scroll-behavior: smooth; }
 
 /* ── VARIABLES ── */
 :root {
-  --black:     #0a0a0a;
-  --off-white: #f0ebe3;
-  --ink:       #1a1a1a;
-  --gold:      #c9a84c;
-  --gold-hover:#e0bc6a;
-  --red:       #8b1a1a;
-  --mid:       #2e2e2e;
-  --muted:     #666;
+  --black:     #081b0e;
+  --off-white: #317007;
+  --ink:       #d1dad3;
+  --gold:      #036e2b;       /* verde tropical principal */
+  --gold-hover:#a9d1b8;       /* verde un tono más claro al hover */
+  --red:       #6b1a1a;
+  --mid:       #969c97;
+  --muted:     #5a7060;
+
   --error:     #e05555;
 
   --font-display: 'Bebas Neue', sans-serif;

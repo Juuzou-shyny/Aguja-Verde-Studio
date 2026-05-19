@@ -86,7 +86,7 @@
 .heroRight { position: relative; overflow: hidden; }
 .heroImgPlaceholder {
   width: 100%; height: 100%;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a1a0a 50%, #0a0a0a 100%);
+  background: linear-gradient(135deg, #0e1a10 0%, #0a1f0e 50%, #080e0a 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -142,7 +142,7 @@
 }
 
 .aboutImg {
-  background: linear-gradient(160deg, #1e1612 0%, #0f0a06 100%);
+  background: linear-gradient(160deg, #0f1e12 0%, #080f0a 100%);
   min-height: 600px;
   display: flex;
   align-items: center;
@@ -253,9 +253,9 @@
   letter-spacing: 0.2em;
   color: rgba(255,255,255,0.1);
   text-transform: uppercase;
-  background: linear-gradient(135deg, #1a1a1a, #2a1a0a);
+  background: linear-gradient(135deg,#111a13, #0a150c);
 }
-.galleryItem:nth-child(even) .galleryItemBg { background: linear-gradient(135deg, #0f0f0f, #1a0a0a); }
+.galleryItem:nth-child(even) .galleryItemBg { background: linear-gradient(135deg,#0a0f0a, #0f1a0f); }
 
 /* ── MERCH ── */
 .merch { padding: 100px 64px; background: var(--ink); }
