@@ -10,8 +10,8 @@ export default function Tienda() {
 
   // Fallback local mientras no hay backend con productos reales
   const FALLBACK = [
-    { id: 1, nombre: 'Camiseta Inkhaus',  precio: 35, activo: true },
-    { id: 2, nombre: 'Hoodie Inkhaus',    precio: 65, activo: true },
+    { id: 1, nombre: 'Camiseta IAguja Verde',  precio: 35, activo: true },
+    { id: 2, nombre: 'Hoodie Aguja Verde',    precio: 65, activo: true },
     { id: 3, nombre: 'Tote Bag',          precio: 22, activo: true },
     { id: 4, nombre: 'Print A3',          precio: 28, activo: true },
     { id: 5, nombre: 'Cap Bordada',       precio: 30, activo: true },

@@ -2,10 +2,18 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useApp } from '../../context/AppContext'
 import styles from './Home.module.css'
+import alexFoto from '../../assets/Alex.jpg'
+import t1 from '../../assets/trabajos/trabajo1.jpg'
+import t2 from '../../assets/trabajos/trabajo2.jpg'
+import t3 from '../../assets/trabajos/trabajo3.jpg'
+import t4 from '../../assets/trabajos/trabajo4.jpg'
+import t5 from '../../assets/trabajos/trabajo5.jpg'
+
+const TRABAJOS = [t1, t2, t3, t4, t5]
 
 const PRODUCTS_PREVIEW = [
-  { id: 1, name: 'Camiseta Inkhaus', price: 35 },
-  { id: 2, name: 'Hoodie Inkhaus',   price: 65 },
+  { id: 1, name: 'Camiseta Aguja Verde', price: 35 },
+  { id: 2, name: 'Hoodie Aguja Verde',   price: 65 },
   { id: 3, name: 'Tote Bag',         price: 22 },
   { id: 4, name: 'Print A3',         price: 28 },
   { id: 5, name: 'Cap Bordada',      price: 30 },
@@ -62,8 +70,8 @@ export default function Home() {
       {/* ── HERO ── */}
       <section className={styles.hero}>
         <div className={styles.heroLeft}>
-          <p className={styles.heroEyebrow}>Estudio de tatuajes · Madrid</p>
-          <h1 className={styles.heroTitle}>INK<br/><span>HAUS</span></h1>
+          <p className={styles.heroEyebrow}>Estudio de tatuajes · Alcoy</p>
+          <h1 className={styles.heroTitle}>Aguja<br/><span>Verde</span></h1>
           <p className={styles.heroSub}>Arte permanente. Cada pieza, única. Cada historia, grabada para siempre.</p>
           <div className={styles.heroCtas}>
             <a href="#booking" className={styles.btnPrimary}>Reserva tu cita</a>
@@ -84,19 +92,18 @@ export default function Home() {
       {/* ── SOBRE EL ARTISTA ── */}
       <section className={`${styles.about} gold-line`} id="about">
         <div className={styles.aboutImg}>
-          <div className={styles.aboutImgInner}><span>Foto tatuador</span></div>
+          <img src={alexFoto} alt="Alex Leo Martínez" className={styles.aboutImgPhoto} />
         </div>
         <div className={`${styles.aboutContent} ${styles.reveal}`} data-reveal>
           <span className="section-label">El artista</span>
-          <h2 className="section-title">NOMBRE<br/>DEL<br/>TATUADOR</h2>
+          <h2 className="section-title">ALEX<br/>LEO<br/>MARTÍNEZ</h2>
           <p className={styles.aboutText}>
-            Especializado en blackwork y fine line con más de 8 años de experiencia.
+            Especializado en blackwork, new school y free hand, con una gran experiencia, aparte de ser titulado cómo ilustrador.
             Cada diseño nace de una conversación — nunca hay dos tatuajes iguales.
           </p>
           <div className={styles.stats}>
-            <div><div className={styles.statNum}>800+</div><div className={styles.statLabel}>Piezas realizadas</div></div>
-            <div><div className={styles.statNum}>8</div><div className={styles.statLabel}>Años experiencia</div></div>
-            <div><div className={styles.statNum}>2</div><div className={styles.statLabel}>Estilos principales</div></div>
+            <div><div className={styles.statNum}>7</div><div className={styles.statLabel}>Años experiencia</div></div>
+            <div><div className={styles.statNum}>3</div><div className={styles.statLabel}>Estilos principales</div></div>
           </div>
         </div>
       </section>
@@ -108,14 +115,14 @@ export default function Home() {
             <span className="section-label">Portfolio</span>
             <h2 className="section-title">TRABAJOS<br/>RECIENTES</h2>
           </div>
-          <a href="https://instagram.com" target="_blank" rel="noreferrer" className={styles.galleryLink}>
+          <a href="https://www.instagram.com/agujaverdetattoo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noreferrer" className={styles.galleryLink}>
             Ver Instagram →
           </a>
         </div>
         <div className={styles.galleryTrack} ref={galleryRef}>
-          {[1,2,3,4,5,6].map(n => (
-            <div key={n} className={styles.galleryItem}>
-              <div className={styles.galleryItemBg}>Foto trabajo {n}</div>
+          {TRABAJOS.map((foto, i) => (
+            <div key={i} className={styles.galleryItem}>
+              <img src={foto} alt={`Trabajo ${i + 1}`} className={styles.galleryImg} />
             </div>
           ))}
         </div>
@@ -159,16 +166,16 @@ export default function Home() {
                target="_blank" rel="noreferrer" className={styles.btnPrimary}>
               Escríbenos por WhatsApp
             </a>
-            <a href="mailto:hola@inkhaus.es" className={styles.btnSecondary}>Enviar email</a>
+            <a href="mailto:hola@AgujaVerde.es" className={styles.btnSecondary}>Enviar email</a>
           </div>
         </div>
       </section>
 
       {/* ── FOOTER ── */}
       <footer className={styles.footer}>
-        <div className={styles.footerLogo}>INKHAUS</div>
-        <div className={styles.footerCopy}>© 2025 Inkhaus · Madrid</div>
-        <a href="https://instagram.com" target="_blank" rel="noreferrer" className={styles.footerSocial}>@inkhaus</a>
+        <div className={styles.footerLogo}>Aguja Verde</div>
+        <div className={styles.footerCopy}>© 2025 Aguja Verde · Alcoy</div>
+        <a href="https://instagram.com" target="_blank" rel="noreferrer" className={styles.footerSocial}>@AgujaVerde</a>
       </footer>
 
       {/* ── WHATSAPP FLOAT ── */}

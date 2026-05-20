@@ -173,9 +173,9 @@
 .aboutContent { padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; }
 
 .aboutText {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   line-height: 1.8;
-  color: rgba(240,235,227,0.7);
+  color: rgba(5, 48, 23, 0.7);
   font-weight: 300;
   max-width: 420px;
 }
@@ -256,6 +256,18 @@
   background: linear-gradient(135deg,#111a13, #0a150c);
 }
 .galleryItem:nth-child(even) .galleryItemBg { background: linear-gradient(135deg,#0a0f0a, #0f1a0f); }
+
+.galleryImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.galleryItem:hover .galleryImg {
+  transform: scale(1.04);
+}
 
 /* ── MERCH ── */
 .merch { padding: 100px 64px; background: var(--ink); }
