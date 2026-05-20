@@ -26,7 +26,7 @@ export default function Nav() {
 
   return (
     <nav className={styles.nav}>
-      <Link to="/" className={styles.logo}>INKHAUS</Link>
+      <Link to="/" className={styles.logo}>Aguja Verde</Link>
 
       <ul className={styles.links}>
         <li><a href="/#about">Estudio</a></li>

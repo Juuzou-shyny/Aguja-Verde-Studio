@@ -61,7 +61,7 @@ export default function LoginModal() {
       <div className={styles.modal} onKeyDown={handleKey} role="dialog" aria-modal="true">
         <button className={styles.close} onClick={() => setLoginOpen(false)} aria-label="Cerrar">✕</button>
 
-        <div className={styles.logo}>INKHAUS</div>
+        <div className={styles.logo}>Aguja Verte Tattoo</div>
         <div className={styles.subtitle}>Accede a tu cuenta</div>
 
         <div className={styles.tabs}>
