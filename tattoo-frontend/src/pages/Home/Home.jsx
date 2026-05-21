@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useApp } from '../../context/AppContext'
 import styles from './Home.module.css'
 import alexFoto from '../../assets/Alex.jpg'
+import { getProductos } from '../../api/auth'
 import t1 from '../../assets/trabajos/trabajo1.jpg'
 import t2 from '../../assets/trabajos/trabajo2.jpg'
 import t3 from '../../assets/trabajos/trabajo3.jpg'
@@ -11,18 +12,17 @@ import t5 from '../../assets/trabajos/trabajo5.jpg'
 
 const TRABAJOS = [t1, t2, t3, t4, t5]
 
-const PRODUCTS_PREVIEW = [
-  { id: 1, name: 'Camiseta Aguja Verde', price: 35 },
-  { id: 2, name: 'Hoodie Aguja Verde',   price: 65 },
-  { id: 3, name: 'Tote Bag',         price: 22 },
-  { id: 4, name: 'Print A3',         price: 28 },
-  { id: 5, name: 'Cap Bordada',      price: 30 },
-]
-
 export default function Home() {
   const { addToCart } = useApp()
   const galleryRef = useRef(null)
   const merchRef   = useRef(null)
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+      getProductos()
+        .then(data => setProducts(data.filter(p => p.activo).slice(0, 5)))
+        .catch(() => setProducts([]))
+    }, [])
 
   // Drag to scroll
   useEffect(() => {
@@ -129,29 +129,23 @@ export default function Home() {
       </section>
 
       {/* ── MERCHAN ── */}
-      <section className={`${styles.merch} gold-line`} id="merch">
-        <div className={`${styles.merchHeader} ${styles.reveal}`} data-reveal>
-          <div>
-            <span className="section-label">Tienda</span>
-            <h2 className="section-title">MERCHAN<br/>DESTACADO</h2>
-          </div>
-          <Link to="/tienda" className={styles.galleryLink}>Ver todo →</Link>
-        </div>
-        <div className={styles.merchTrack} ref={merchRef}>
-          {PRODUCTS_PREVIEW.map(p => (
-            <div key={p.id} className={styles.merchCard}>
-              <div className={styles.merchCardImg}>Imagen producto</div>
-              <div className={styles.merchCardInfo}>
-                <div className={styles.merchCardName}>{p.name}</div>
-                <div className={styles.merchCardPrice}>{p.price.toFixed(2).replace('.',',')} €</div>
-                <button className={styles.merchCardBtn} onClick={() => addToCart(p)}>
-                  Añadir al carrito
-                </button>
-              </div>
+      <div className={styles.merchTrack} ref={merchRef}>
+        {products.map(p => (
+          <div key={p.id} className={styles.merchCard}>
+            {p.imagenUrl
+              ? <img src={p.imagenUrl} alt={p.nombre} className={styles.merchCardImg} />
+              : <div className={styles.merchCardImg}>Sin imagen</div>
+            }
+            <div className={styles.merchCardInfo}>
+              <div className={styles.merchCardName}>{p.nombre}</div>
+              <div className={styles.merchCardPrice}>{Number(p.precio).toFixed(2).replace('.',',')} €</div>
+              <button className={styles.merchCardBtn} onClick={() => addToCart({ id: p.id, name: p.nombre, price: p.precio })}>
+                Añadir al carrito
+              </button>
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
+        ))}
+      </div>
 
       {/* ── BOOKING ── */}
       <section className={styles.booking} id="booking">
@@ -166,7 +160,7 @@ export default function Home() {
                target="_blank" rel="noreferrer" className={styles.btnPrimary}>
               Escríbenos por WhatsApp
             </a>
-            <a href="mailto:hola@AgujaVerde.es" className={styles.btnSecondary}>Enviar email</a>
+            <a href="mailto:sheilarechelloret@hotmail.com" className={styles.btnSecondary}>Enviar email</a>
           </div>
         </div>
       </section>
@@ -175,7 +169,7 @@ export default function Home() {
       <footer className={styles.footer}>
         <div className={styles.footerLogo}>Aguja Verde</div>
         <div className={styles.footerCopy}>© 2025 Aguja Verde · Alcoy</div>
-        <a href="https://instagram.com" target="_blank" rel="noreferrer" className={styles.footerSocial}>@AgujaVerde</a>
+        <a href="https://www.instagram.com/agujaverdetattoo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noreferrer" className={styles.footerSocial}>@AgujaVerde</a>
       </footer>
 
       {/* ── WHATSAPP FLOAT ── */}

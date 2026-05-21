@@ -29,6 +29,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddControllers();
+// Límite de 10MB para subida de imágenes
+builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 10 * 1024 * 1024;
+});
 builder.Services.AddEndpointsApiExplorer();
 
 // Swagger con soporte JWT
@@ -61,6 +66,13 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+    RequestPath = ""
+});
+
 // Test de conexión (quitar en producción)
 using (var scope = app.Services.CreateScope())
 {
@@ -75,6 +87,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+//app.UseStaticFiles(); // Sirve los archivos estáticos de wwwroot
 app.UseAuthentication();  // ← primero autenticación
 app.UseAuthorization();   // ← luego autorización
 app.MapControllers();
