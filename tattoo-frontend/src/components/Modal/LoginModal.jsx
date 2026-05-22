@@ -22,34 +22,34 @@ export default function LoginModal() {
 
   if (!loginOpen) return null
 
-  const handleLogin = async () => {
-    setError('')
-    if (!loginEmail || !loginPassword) { setError('Rellena todos los campos.'); return }
-    setLoading(true)
-    try {
-      const data = await loginRequest({ email: loginEmail, password: loginPassword })
-      login({ name: data.name || loginEmail.split('@')[0], email: loginEmail, token: data.token })
-    } catch (e) {
-      setError(e.message || 'Email o contraseña incorrectos.')
-    } finally {
-      setLoading(false)
-    }
+const handleLogin = async () => {
+  setError('')
+  if (!loginEmail || !loginPassword) { setError('Rellena todos los campos.'); return }
+  setLoading(true)
+  try {
+    const data = await loginRequest({ email: loginEmail, password: loginPassword })
+    login({ name: data.nombre, email: data.email, token: data.token, role: data.rol })
+  } catch (e) {
+    setError(e.message || 'Email o contraseña incorrectos.')
+  } finally {
+    setLoading(false)
   }
+}
 
-  const handleRegister = async () => {
-    setError('')
-    if (!regName || !regEmail || !regPassword) { setError('Rellena todos los campos.'); return }
-    if (regPassword.length < 8) { setError('La contraseña debe tener al menos 8 caracteres.'); return }
-    setLoading(true)
-    try {
-      const data = await registerRequest({ name: regName, email: regEmail, password: regPassword })
-      login({ name: regName, email: regEmail, token: data.token })
-    } catch (e) {
-      setError(e.message || 'Error al registrarse.')
-    } finally {
-      setLoading(false)
-    }
+const handleRegister = async () => {
+  setError('')
+  if (!regName || !regEmail || !regPassword) { setError('Rellena todos los campos.'); return }
+  if (regPassword.length < 8) { setError('La contraseña debe tener al menos 8 caracteres.'); return }
+  setLoading(true)
+  try {
+    const data = await registerRequest({ name: regName, email: regEmail, password: regPassword })
+    login({ name: data.nombre, email: data.email, token: data.token, role: data.rol })
+  } catch (e) {
+    setError(e.message || 'Error al registrarse.')
+  } finally {
+    setLoading(false)
   }
+}
 
   const handleKey = (e) => {
     if (e.key === 'Enter') tab === 'login' ? handleLogin() : handleRegister()

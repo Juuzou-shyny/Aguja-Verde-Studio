@@ -3,20 +3,25 @@ import { createContext, useContext, useState, useCallback } from 'react'
 const AppContext = createContext(null)
 
 export function AppProvider({ children }) {
-  const [user, setUser]   = useState(null)   // { name, email, token }
-  const [cart, setCart]   = useState([])     // [{ id, name, price, qty }]
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('user')
+    return saved ? JSON.parse(saved) : null
+  })
+  const [cart, setCart]   = useState([])
   const [cartOpen, setCartOpen]   = useState(false)
   const [loginOpen, setLoginOpen] = useState(false)
 
   // ── AUTH ──
   const login = useCallback((userData) => {
     setUser(userData)
+    localStorage.setItem('user', JSON.stringify(userData))
     setLoginOpen(false)
   }, [])
 
   const logout = useCallback(() => {
     setUser(null)
     setCart([])
+    localStorage.removeItem('user')
   }, [])
 
   // ── CART ──

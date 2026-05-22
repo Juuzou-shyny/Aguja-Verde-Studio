@@ -99,20 +99,41 @@ public class ProductosController : ControllerBase
         producto.Precio = request.Precio;
         producto.Stock = request.Stock;
         producto.Categoria = request.Categoria;
-        producto.ImagenUrl = request.ImagenUrl;
+        producto.ImagenUrl = request.ImagenUrl ?? producto.ImagenUrl;
 
-        // Actualizar tallas
+        // Actualizar tallas sin borrar las que tienen pedidos
         if (request.Tallas != null)
         {
-            _db.ProductoTallas.RemoveRange(producto.Tallas);
-            foreach (var t in request.Tallas)
+            foreach (var tallaRequest in request.Tallas)
             {
-                _db.ProductoTallas.Add(new ProductoTalla
+                var tallaExistente = producto.Tallas.FirstOrDefault(t => t.Talla == tallaRequest.Talla);
+                if (tallaExistente != null)
                 {
-                    ProductoId = producto.Id,
-                    Talla = t.Talla,
-                    Stock = t.Stock
-                });
+                    // Actualizar stock de la talla existente
+                    tallaExistente.Stock = tallaRequest.Stock;
+                }
+                else
+                {
+                    // Añadir talla nueva
+                    _db.ProductoTallas.Add(new ProductoTalla
+                    {
+                        ProductoId = producto.Id,
+                        Talla = tallaRequest.Talla,
+                        Stock = tallaRequest.Stock
+                    });
+                }
+            }
+
+            // Solo borrar tallas que no tienen pedidos asociados
+            var tallasAEliminar = producto.Tallas
+                .Where(t => !request.Tallas.Any(r => r.Talla == t.Talla))
+                .ToList();
+
+            foreach (var talla in tallasAEliminar)
+            {
+                var tieneLineas = await _db.LineasPedido.AnyAsync(l => l.ProductoTallaId == talla.Id);
+                if (!tieneLineas)
+                    _db.ProductoTallas.Remove(talla);
             }
         }
 
@@ -134,6 +155,53 @@ public class ProductosController : ControllerBase
         await _db.SaveChangesAsync();
 
         return Ok(new { mensaje = "Producto desactivado" });
+    }
+
+    // POST api/productos/5/imagen — solo admin
+    [Authorize(Roles = "admin")]
+    [HttpPost("{id}/imagen")]
+    public async Task<IActionResult> UploadImagen(int id, IFormFile archivo)
+    {
+        var producto = await _db.Productos.FindAsync(id);
+        if (producto == null)
+            return NotFound(new { mensaje = "Producto no encontrado" });
+
+        if (archivo == null || archivo.Length == 0)
+            return BadRequest(new { mensaje = "No se ha enviado ningún archivo" });
+
+        // Validar que sea imagen
+        var extensionesPermitidas = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+        var extension = Path.GetExtension(archivo.FileName).ToLowerInvariant();
+        if (!extensionesPermitidas.Contains(extension))
+            return BadRequest(new { mensaje = "Formato no permitido. Usa jpg, png o webp" });
+
+        // Crear carpeta si no existe
+        var carpeta = Path.Combine("wwwroot", "imagenes", "productos");
+        Directory.CreateDirectory(carpeta);
+
+        // Nombre único para evitar colisiones
+        var nombreArchivo = $"producto_{id}_{Guid.NewGuid()}{extension}";
+        var rutaCompleta = Path.Combine(carpeta, nombreArchivo);
+
+        // Borrar imagen anterior si existía
+        if (!string.IsNullOrEmpty(producto.ImagenUrl))
+        {
+            var rutaAnterior = Path.Combine("wwwroot", producto.ImagenUrl.TrimStart('/'));
+            if (System.IO.File.Exists(rutaAnterior))
+                System.IO.File.Delete(rutaAnterior);
+        }
+
+        // Guardar archivo
+        using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+        {
+            await archivo.CopyToAsync(stream);
+        }
+
+        // Guardar ruta en BD
+        producto.ImagenUrl = $"/imagenes/productos/{nombreArchivo}";
+        await _db.SaveChangesAsync();
+
+        return Ok(new { imagenUrl = producto.ImagenUrl });
     }
 }
 

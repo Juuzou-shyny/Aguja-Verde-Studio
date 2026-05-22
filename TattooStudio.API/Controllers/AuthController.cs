@@ -31,7 +31,13 @@ public class AuthController : ControllerBase
             return Unauthorized(new { mensaje = "Credenciales incorrectas" });
 
         var token = GenerarToken(usuario.Email, usuario.Rol);
-        return Ok(new { token });
+        return Ok(new
+        {
+            token,
+            nombre = usuario.Nombre,
+            email = usuario.Email,
+            rol = usuario.Rol
+        });
     }
 
     [HttpPost("register")]
