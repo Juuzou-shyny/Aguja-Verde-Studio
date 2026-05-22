@@ -8,20 +8,10 @@ export default function Tienda() {
   const [products, setProducts] = useState([])
   const [loading, setLoading]   = useState(true)
 
-  // Fallback local mientras no hay backend con productos reales
-  const FALLBACK = [
-    { id: 1, nombre: 'Camiseta Inkhaus',  precio: 35, activo: true },
-    { id: 2, nombre: 'Hoodie Inkhaus',    precio: 65, activo: true },
-    { id: 3, nombre: 'Tote Bag',          precio: 22, activo: true },
-    { id: 4, nombre: 'Print A3',          precio: 28, activo: true },
-    { id: 5, nombre: 'Cap Bordada',       precio: 30, activo: true },
-    { id: 6, nombre: 'Sticker Pack',      precio: 12, activo: true },
-  ]
-
   useEffect(() => {
     getProductos()
       .then(data => setProducts(data.filter(p => p.activo)))
-      .catch(() => setProducts(FALLBACK))
+      .catch(() => setProducts([]))
       .finally(() => setLoading(false))
   }, [])
 
@@ -41,7 +31,10 @@ export default function Tienda() {
         <div className={styles.grid}>
           {products.map(p => (
             <div key={p.id} className={styles.card}>
-              <div className={styles.cardImg}>Imagen producto</div>
+              {p.imagenUrl
+              ? <img src={p.imagenUrl} alt={p.nombre} className={styles.cardImg} />
+                : <div className={styles.cardImg}>Sin imagen</div>
+              }
               <div className={styles.cardInfo}>
                 <div className={styles.cardName}>{p.nombre}</div>
                 <div className={styles.cardPrice}>{Number(p.precio).toFixed(2).replace('.',',')} €</div>

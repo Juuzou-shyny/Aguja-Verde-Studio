@@ -10,6 +10,9 @@ import Tienda  from './pages/Tienda/Tienda'
 import Pedidos from './pages/Pedidos/Pedidos'
 import Perfil  from './pages/Perfil/Perfil'
 
+import AdminRoute from './components/AdminRoute'
+import Admin from './pages/Admin/Admin'
+
 export default function App() {
   return (
     <AppProvider>
@@ -21,11 +24,9 @@ export default function App() {
         <Route path="/"       element={<Home />} />
         <Route path="/tienda" element={<Tienda />} />
         <Route path="/pedidos" element={
-          <ProtectedRoute><Pedidos /></ProtectedRoute>
-        } />
-        <Route path="/perfil" element={
-          <ProtectedRoute><Perfil /></ProtectedRoute>
-        } />
+          <ProtectedRoute><Pedidos /></ProtectedRoute>} />
+        <Route path="/perfil" element={ <ProtectedRoute><Perfil /></ProtectedRoute>} />
+        <Route path="/admin" element={ <AdminRoute><Admin /></AdminRoute>} />
       </Routes>
     </AppProvider>
   )

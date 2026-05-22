@@ -1,20 +1,29 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useApp } from '../../context/AppContext'
 import styles from './Home.module.css'
+import alexFoto from '../../assets/Alex.jpg'
+import { getProductos } from '../../api/auth'
+import logo from '../../assets/logo.png'
+import t1 from '../../assets/trabajos/trabajo1.jpg'
+import t2 from '../../assets/trabajos/trabajo2.jpg'
+import t3 from '../../assets/trabajos/trabajo3.jpg'
+import t4 from '../../assets/trabajos/trabajo4.jpg'
+import t5 from '../../assets/trabajos/trabajo5.jpg'
 
-const PRODUCTS_PREVIEW = [
-  { id: 1, name: 'Camiseta Inkhaus', price: 35 },
-  { id: 2, name: 'Hoodie Inkhaus',   price: 65 },
-  { id: 3, name: 'Tote Bag',         price: 22 },
-  { id: 4, name: 'Print A3',         price: 28 },
-  { id: 5, name: 'Cap Bordada',      price: 30 },
-]
+const TRABAJOS = [t1, t2, t3, t4, t5]
 
 export default function Home() {
   const { addToCart } = useApp()
   const galleryRef = useRef(null)
   const merchRef   = useRef(null)
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+      getProductos()
+        .then(data => setProducts(data.filter(p => p.activo).slice(0, 5)))
+        .catch(() => setProducts([]))
+    }, [])
 
   // Drag to scroll
   useEffect(() => {
@@ -62,41 +71,39 @@ export default function Home() {
       {/* ── HERO ── */}
       <section className={styles.hero}>
         <div className={styles.heroLeft}>
-          <p className={styles.heroEyebrow}>Estudio de tatuajes · Madrid</p>
-          <h1 className={styles.heroTitle}>INK<br/><span>HAUS</span></h1>
-          <p className={styles.heroSub}>Arte permanente. Cada pieza, única. Cada historia, grabada para siempre.</p>
+          {/*<img src={logo} alt="Aguja Verde" className={styles.heroLogo} />*/}
+          <p className={styles.heroEyebrow}>Estudio de tatuajes · Alcoy</p>
+          <h1 className={styles.heroTitle}>Aguja<br/><span>Verde</span></h1>
+          <p className={styles.heroSub}>Arte que te acompañarça siempre. Cada pieza, única.</p>
           <div className={styles.heroCtas}>
             <a href="#booking" className={styles.btnPrimary}>Reserva tu cita</a>
             <Link to="/tienda" className={styles.btnSecondary}>Ver tienda</Link>
           </div>
           <div className={styles.heroDeco}>
             <div className={styles.decoLine} />
-            <span>Desde 2018</span>
+            <span>Desde 2024</span>
           </div>
         </div>
         <div className={styles.heroRight}>
-          <div className={styles.heroImgPlaceholder}>
-            <span>Foto del estudio</span>
-          </div>
+            <img src={logo} alt="Aguja Verde Tattoo" className={styles.heroLogo} />
         </div>
       </section>
 
       {/* ── SOBRE EL ARTISTA ── */}
       <section className={`${styles.about} gold-line`} id="about">
         <div className={styles.aboutImg}>
-          <div className={styles.aboutImgInner}><span>Foto tatuador</span></div>
+          <img src={alexFoto} alt="Alex Leo Martínez" className={styles.aboutImgPhoto} />
         </div>
         <div className={`${styles.aboutContent} ${styles.reveal}`} data-reveal>
           <span className="section-label">El artista</span>
-          <h2 className="section-title">NOMBRE<br/>DEL<br/>TATUADOR</h2>
+          <h2 className="section-title">ALEX<br/>LEO<br/>MARTÍNEZ</h2>
           <p className={styles.aboutText}>
-            Especializado en blackwork y fine line con más de 8 años de experiencia.
+            Especializado en blackwork, new school y free hand, con una gran experiencia, aparte de ser titulado cómo ilustrador.
             Cada diseño nace de una conversación — nunca hay dos tatuajes iguales.
           </p>
           <div className={styles.stats}>
-            <div><div className={styles.statNum}>800+</div><div className={styles.statLabel}>Piezas realizadas</div></div>
-            <div><div className={styles.statNum}>8</div><div className={styles.statLabel}>Años experiencia</div></div>
-            <div><div className={styles.statNum}>2</div><div className={styles.statLabel}>Estilos principales</div></div>
+            <div><div className={styles.statNum}>7</div><div className={styles.statLabel}>Años experiencia</div></div>
+            <div><div className={styles.statNum}>3</div><div className={styles.statLabel}>Estilos principales</div></div>
           </div>
         </div>
       </section>
@@ -108,14 +115,14 @@ export default function Home() {
             <span className="section-label">Portfolio</span>
             <h2 className="section-title">TRABAJOS<br/>RECIENTES</h2>
           </div>
-          <a href="https://instagram.com" target="_blank" rel="noreferrer" className={styles.galleryLink}>
+          <a href="https://www.instagram.com/agujaverdetattoo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noreferrer" className={styles.galleryLink}>
             Ver Instagram →
           </a>
         </div>
         <div className={styles.galleryTrack} ref={galleryRef}>
-          {[1,2,3,4,5,6].map(n => (
-            <div key={n} className={styles.galleryItem}>
-              <div className={styles.galleryItemBg}>Foto trabajo {n}</div>
+          {TRABAJOS.map((foto, i) => (
+            <div key={i} className={styles.galleryItem}>
+              <img src={foto} alt={`Trabajo ${i + 1}`} className={styles.galleryImg} />
             </div>
           ))}
         </div>
@@ -131,13 +138,16 @@ export default function Home() {
           <Link to="/tienda" className={styles.galleryLink}>Ver todo →</Link>
         </div>
         <div className={styles.merchTrack} ref={merchRef}>
-          {PRODUCTS_PREVIEW.map(p => (
+          {products.map(p => (
             <div key={p.id} className={styles.merchCard}>
-              <div className={styles.merchCardImg}>Imagen producto</div>
+              {p.imagenUrl
+                ? <img src={p.imagenUrl} alt={p.nombre} className={styles.merchCardImg} />
+                : <div className={styles.merchCardImg}>Sin imagen</div>
+              }
               <div className={styles.merchCardInfo}>
-                <div className={styles.merchCardName}>{p.name}</div>
-                <div className={styles.merchCardPrice}>{p.price.toFixed(2).replace('.',',')} €</div>
-                <button className={styles.merchCardBtn} onClick={() => addToCart(p)}>
+                <div className={styles.merchCardName}>{p.nombre}</div>
+                <div className={styles.merchCardPrice}>{Number(p.precio).toFixed(2).replace('.',',')} €</div>
+                <button className={styles.merchCardBtn} onClick={() => addToCart({ id: p.id, name: p.nombre, price: p.precio })}>
                   Añadir al carrito
                 </button>
               </div>
@@ -155,20 +165,20 @@ export default function Home() {
             Cuéntanos tu idea. Te respondemos en menos de 24h y preparamos un diseño exclusivo para ti.
           </p>
           <div className={styles.bookingCtas}>
-            <a href="https://wa.me/34XXXXXXXXX?text=Hola,%20quiero%20información%20para%20reservar%20una%20cita"
+            <a href="https://wa.me/34652875948?text=Hola,%20quiero%20información%20para%20reservar%20una%20cita"
                target="_blank" rel="noreferrer" className={styles.btnPrimary}>
               Escríbenos por WhatsApp
             </a>
-            <a href="mailto:hola@inkhaus.es" className={styles.btnSecondary}>Enviar email</a>
+            <a href="mailto:sheilarechelloret@hotmail.com" className={styles.btnSecondary}>Enviar email</a>
           </div>
         </div>
       </section>
 
       {/* ── FOOTER ── */}
       <footer className={styles.footer}>
-        <div className={styles.footerLogo}>INKHAUS</div>
-        <div className={styles.footerCopy}>© 2025 Inkhaus · Madrid</div>
-        <a href="https://instagram.com" target="_blank" rel="noreferrer" className={styles.footerSocial}>@inkhaus</a>
+        <div className={styles.footerLogo}>Aguja Verde</div>
+        <div className={styles.footerCopy}>© 2025 Aguja Verde · Alcoy</div>
+        <a href="https://www.instagram.com/agujaverdetattoo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noreferrer" className={styles.footerSocial}>@AgujaVerde</a>
       </footer>
 
       {/* ── WHATSAPP FLOAT ── */}
