@@ -114,7 +114,7 @@ export default function Admin() {
         precio: parseFloat(form.precio),
         stock: parseInt(form.stock) || 0,
         categoria: form.categoria,
-        imagenUrl: null,
+        imagenUrl: undefined ,
         tallas: form.tallas
       }
 

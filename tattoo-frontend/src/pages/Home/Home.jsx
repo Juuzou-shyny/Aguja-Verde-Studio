@@ -4,6 +4,7 @@ import { useApp } from '../../context/AppContext'
 import styles from './Home.module.css'
 import alexFoto from '../../assets/Alex.jpg'
 import { getProductos } from '../../api/auth'
+import logo from '../../assets/logo.png'
 import t1 from '../../assets/trabajos/trabajo1.jpg'
 import t2 from '../../assets/trabajos/trabajo2.jpg'
 import t3 from '../../assets/trabajos/trabajo3.jpg'
@@ -70,22 +71,21 @@ export default function Home() {
       {/* ── HERO ── */}
       <section className={styles.hero}>
         <div className={styles.heroLeft}>
+          {/*<img src={logo} alt="Aguja Verde" className={styles.heroLogo} />*/}
           <p className={styles.heroEyebrow}>Estudio de tatuajes · Alcoy</p>
           <h1 className={styles.heroTitle}>Aguja<br/><span>Verde</span></h1>
-          <p className={styles.heroSub}>Arte permanente. Cada pieza, única. Cada historia, grabada para siempre.</p>
+          <p className={styles.heroSub}>Arte que te acompañarça siempre. Cada pieza, única.</p>
           <div className={styles.heroCtas}>
             <a href="#booking" className={styles.btnPrimary}>Reserva tu cita</a>
             <Link to="/tienda" className={styles.btnSecondary}>Ver tienda</Link>
           </div>
           <div className={styles.heroDeco}>
             <div className={styles.decoLine} />
-            <span>Desde 2018</span>
+            <span>Desde 2024</span>
           </div>
         </div>
         <div className={styles.heroRight}>
-          <div className={styles.heroImgPlaceholder}>
-            <span>Foto del estudio</span>
-          </div>
+            <img src={logo} alt="Aguja Verde Tattoo" className={styles.heroLogo} />
         </div>
       </section>
 
@@ -129,23 +129,32 @@ export default function Home() {
       </section>
 
       {/* ── MERCHAN ── */}
-      <div className={styles.merchTrack} ref={merchRef}>
-        {products.map(p => (
-          <div key={p.id} className={styles.merchCard}>
-            {p.imagenUrl
-              ? <img src={p.imagenUrl} alt={p.nombre} className={styles.merchCardImg} />
-              : <div className={styles.merchCardImg}>Sin imagen</div>
-            }
-            <div className={styles.merchCardInfo}>
-              <div className={styles.merchCardName}>{p.nombre}</div>
-              <div className={styles.merchCardPrice}>{Number(p.precio).toFixed(2).replace('.',',')} €</div>
-              <button className={styles.merchCardBtn} onClick={() => addToCart({ id: p.id, name: p.nombre, price: p.precio })}>
-                Añadir al carrito
-              </button>
-            </div>
+      <section className={`${styles.merch} gold-line`} id="merch">
+        <div className={`${styles.merchHeader} ${styles.reveal}`} data-reveal>
+          <div>
+            <span className="section-label">Tienda</span>
+            <h2 className="section-title">MERCHAN<br/>DESTACADO</h2>
           </div>
-        ))}
-      </div>
+          <Link to="/tienda" className={styles.galleryLink}>Ver todo →</Link>
+        </div>
+        <div className={styles.merchTrack} ref={merchRef}>
+          {products.map(p => (
+            <div key={p.id} className={styles.merchCard}>
+              {p.imagenUrl
+                ? <img src={p.imagenUrl} alt={p.nombre} className={styles.merchCardImg} />
+                : <div className={styles.merchCardImg}>Sin imagen</div>
+              }
+              <div className={styles.merchCardInfo}>
+                <div className={styles.merchCardName}>{p.nombre}</div>
+                <div className={styles.merchCardPrice}>{Number(p.precio).toFixed(2).replace('.',',')} €</div>
+                <button className={styles.merchCardBtn} onClick={() => addToCart({ id: p.id, name: p.nombre, price: p.precio })}>
+                  Añadir al carrito
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* ── BOOKING ── */}
       <section className={styles.booking} id="booking">
@@ -156,7 +165,7 @@ export default function Home() {
             Cuéntanos tu idea. Te respondemos en menos de 24h y preparamos un diseño exclusivo para ti.
           </p>
           <div className={styles.bookingCtas}>
-            <a href="https://wa.me/34XXXXXXXXX?text=Hola,%20quiero%20información%20para%20reservar%20una%20cita"
+            <a href="https://wa.me/34652875948?text=Hola,%20quiero%20información%20para%20reservar%20una%20cita"
                target="_blank" rel="noreferrer" className={styles.btnPrimary}>
               Escríbenos por WhatsApp
             </a>
