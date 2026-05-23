@@ -1,0 +1,23 @@
+{
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=127.0.0.1;Port=3306;Database=tattoo_studio;User=TU_USUARIO;Password=TU_PASSWORD;"
+  },
+  "Jwt": {
+    "Key": "CLAVE_SECRETA_MINIMO_32_CARACTERES",
+    "Issuer": "TattooStudioAPI",
+    "Audience": "TattooStudioClient",
+    "ExpiresInMinutes": 60
+  },
+  "Stripe": {
+    "SecretKey": "sk_test_TU_CLAVE_SECRETA",
+    "PublishableKey": "pk_test_TU_CLAVE_PUBLICA",
+    "WebhookSecret": ""
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  }
+}
