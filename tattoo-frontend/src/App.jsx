@@ -13,6 +13,9 @@ import Perfil  from './pages/Perfil/Perfil'
 import AdminRoute from './components/AdminRoute'
 import Admin from './pages/Admin/Admin'
 
+import PagoExitoso   from './pages/PagoExitoso.jsx'
+import PagoCancelado from './pages/PagoCancelado'
+
 export default function App() {
   return (
     <AppProvider>
@@ -24,9 +27,11 @@ export default function App() {
         <Route path="/"       element={<Home />} />
         <Route path="/tienda" element={<Tienda />} />
         <Route path="/pedidos" element={
-          <ProtectedRoute><Pedidos /></ProtectedRoute>} />
+        <ProtectedRoute><Pedidos /></ProtectedRoute>} />
         <Route path="/perfil" element={ <ProtectedRoute><Perfil /></ProtectedRoute>} />
         <Route path="/admin" element={ <AdminRoute><Admin /></AdminRoute>} />
+        <Route path="/pago-exitoso"   element={<PagoExitoso />} />
+        <Route path="/pago-cancelado" element={<PagoCancelado />} />
       </Routes>
     </AppProvider>
   )

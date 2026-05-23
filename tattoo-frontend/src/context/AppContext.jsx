@@ -51,11 +51,11 @@ export function AppProvider({ children }) {
 
   return (
     <AppContext.Provider value={{
-      user, login, logout,
-      cart, cartCount, cartTotal, addToCart, updateQty, removeFromCart,
-      cartOpen, setCartOpen,
-      loginOpen, setLoginOpen,
-    }}>
+        user, login, logout,
+        cart, setCart, cartCount, cartTotal, addToCart, updateQty, removeFromCart,
+        cartOpen, setCartOpen,
+        loginOpen, setLoginOpen,
+      }}>
       {children}
     </AppContext.Provider>
   )

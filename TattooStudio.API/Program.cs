@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TattooStudio.API.Data;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,7 +64,8 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-
+// Stripe
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 var app = builder.Build();
 
 app.UseStaticFiles(new StaticFileOptions

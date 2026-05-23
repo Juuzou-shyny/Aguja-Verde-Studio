@@ -327,11 +327,12 @@
 .linea {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 16px;
   font-family: var(--font-mono);
   font-size: 0.6rem;
   letter-spacing: 0.08em;
-  color: rgba(240,235,227,0.7);
+  color: var(--off-white); 
 }
 .lineaQty { color: var(--muted); }
 .lineaPrecio { color: var(--gold); font-family: var(--font-display); font-size: 0.9rem; }

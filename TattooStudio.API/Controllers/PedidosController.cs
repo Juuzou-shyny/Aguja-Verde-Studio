@@ -18,16 +18,13 @@ public class PedidosController : ControllerBase
         _db = db;
     }
 
-    // POST api/pedidos — requiere login
     [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] PedidoRequest request)
     {
-        // Obtener el usuario del token
         var emailClaim = User.FindFirst(ClaimTypes.Email)?.Value;
         var usuario = await _db.Usuarios.FirstOrDefaultAsync(u => u.Email == emailClaim);
-        if (usuario == null)
-            return Unauthorized();
+        if (usuario == null) return Unauthorized();
 
         if (request.Lineas == null || !request.Lineas.Any())
             return BadRequest(new { mensaje = "El pedido debe tener al menos una línea" });
@@ -46,14 +43,12 @@ public class PedidosController : ControllerBase
                 var talla = await _db.ProductoTallas.FindAsync(linea.ProductoTallaId.Value);
                 if (talla == null || talla.Stock < linea.Cantidad)
                     return BadRequest(new { mensaje = $"Stock insuficiente para talla {talla?.Talla}" });
-
                 talla.Stock -= linea.Cantidad;
             }
             else
             {
                 if (producto.Stock < linea.Cantidad)
                     return BadRequest(new { mensaje = $"Stock insuficiente para {producto.Nombre}" });
-
                 producto.Stock -= linea.Cantidad;
             }
 
@@ -71,9 +66,10 @@ public class PedidosController : ControllerBase
         var pedido = new Pedido
         {
             UsuarioId = usuario.Id,
-            NombreCliente = usuario.Nombre,    
-            EmailCliente = usuario.Email,     
+            NombreCliente = usuario.Nombre,
+            EmailCliente = usuario.Email,
             Direccion = request.Direccion,
+            Telefono = request.Telefono,
             Total = total,
             Estado = "pendiente",
             CreadoEn = DateTime.UtcNow,
@@ -90,6 +86,7 @@ public class PedidosController : ControllerBase
             pedido.NombreCliente,
             pedido.EmailCliente,
             pedido.Direccion,
+            pedido.Telefono,
             pedido.Total,
             pedido.Estado,
             pedido.CreadoEn,
@@ -103,15 +100,13 @@ public class PedidosController : ControllerBase
         });
     }
 
-    // GET api/pedidos/mis-pedidos — usuario autenticado
     [Authorize]
     [HttpGet("mis-pedidos")]
     public async Task<IActionResult> GetMisPedidos()
     {
         var emailClaim = User.FindFirst(ClaimTypes.Email)?.Value;
         var usuario = await _db.Usuarios.FirstOrDefaultAsync(u => u.Email == emailClaim);
-        if (usuario == null)
-            return Unauthorized();
+        if (usuario == null) return Unauthorized();
 
         var pedidos = await _db.Pedidos
             .Include(p => p.Lineas)
@@ -125,6 +120,7 @@ public class PedidosController : ControllerBase
             p.NombreCliente,
             p.EmailCliente,
             p.Direccion,
+            p.Telefono,
             p.Total,
             p.Estado,
             p.CreadoEn,
@@ -138,7 +134,6 @@ public class PedidosController : ControllerBase
         }));
     }
 
-    // GET api/pedidos — solo admin
     [Authorize(Roles = "admin")]
     [HttpGet]
     public async Task<IActionResult> GetAll()
@@ -155,6 +150,7 @@ public class PedidosController : ControllerBase
             p.NombreCliente,
             p.EmailCliente,
             p.Direccion,
+            p.Telefono,
             p.Total,
             p.Estado,
             p.CreadoEn,
@@ -168,7 +164,6 @@ public class PedidosController : ControllerBase
         }));
     }
 
-    // GET api/pedidos/5 — solo admin
     [Authorize(Roles = "admin")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
@@ -187,6 +182,7 @@ public class PedidosController : ControllerBase
             pedido.NombreCliente,
             pedido.EmailCliente,
             pedido.Direccion,
+            pedido.Telefono,
             pedido.Total,
             pedido.Estado,
             pedido.CreadoEn,
@@ -200,7 +196,6 @@ public class PedidosController : ControllerBase
         });
     }
 
-    // PATCH api/pedidos/5/estado — solo admin
     [Authorize(Roles = "admin")]
     [HttpPatch("{id}/estado")]
     public async Task<IActionResult> UpdateEstado(int id, [FromBody] EstadoRequest request)
@@ -220,12 +215,6 @@ public class PedidosController : ControllerBase
     }
 }
 
-// DTOs
 public record LineaPedidoRequest(int ProductoId, int? ProductoTallaId, int Cantidad);
-
-public record PedidoRequest(
-    string Direccion,
-    List<LineaPedidoRequest> Lineas
-);
-
+public record PedidoRequest(string Direccion, string Telefono, List<LineaPedidoRequest> Lineas);
 public record EstadoRequest(string Estado);

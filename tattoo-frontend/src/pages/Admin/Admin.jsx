@@ -176,6 +176,22 @@ export default function Admin() {
   }
 
   const conTallas = form.categoria === 'prenda' || form.categoria === 'accesorio'
+  const cambiarEstado = async (id, nuevoEstado) => {
+  try {
+    await fetch(`/api/pedidos/${id}/estado`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.token}`
+      },
+      body: JSON.stringify({ estado: nuevoEstado })
+    })
+    setPedidos(prev => prev.map(p => p.id === id ? { ...p, estado: nuevoEstado } : p))
+    flash('ok', `Pedido #${id} actualizado a "${nuevoEstado}".`)
+  } catch {
+    flash('error', 'Error al actualizar el estado.')
+  }
+}
 
   return (
     <main className={styles.page}>
@@ -323,48 +339,60 @@ export default function Admin() {
 
       {/* ── PEDIDOS ── */}
       {tab === 'pedidos' && (
-        <div className={styles.section}>
-          <div className={styles.listHeader}>
-            <h2 className={styles.listTitle}>Todos los pedidos ({pedidos.length})</h2>
-          </div>
+  <div className={styles.section}>
+    <div className={styles.listHeader}>
+      <h2 className={styles.listTitle}>Todos los pedidos ({pedidos.length})</h2>
+    </div>
 
-          {loading ? (
-            <div className={styles.loadingList}>
-              {[1,2,3].map(n => <div key={n} className={styles.skeleton}/>)}
+    {loading ? (
+      <div className={styles.loadingList}>
+        {[1,2,3].map(n => <div key={n} className={styles.skeleton}/>)}
+      </div>
+    ) : pedidos.length === 0 ? (
+      <div className={styles.empty}>No hay pedidos aún.</div>
+    ) : (
+      <div className={styles.pedidosList}>
+        {pedidos.map(p => (
+          <div key={p.id} className={styles.pedidoRow}>
+            <div className={styles.pedidoTop}>
+              <div>
+                <span className={styles.pedidoId}>Pedido #{p.id}</span>
+                <span className={styles.pedidoFecha}>{new Date(p.creadoEn).toLocaleDateString('es-ES')}</span>
+              </div>
+              <div className={styles.pedidoTopRight}>
+                <span className={`${styles.estado} ${styles[`estado_${p.estado?.toLowerCase()}`]}`}>
+                  {p.estado}
+                </span>
+                <select
+                  className={styles.estadoSelect}
+                  value={p.estado}
+                  onChange={e => cambiarEstado(p.id, e.target.value)}
+                >
+                  <option value="pendiente">Pendiente</option>
+                  <option value="pagado">Pagado</option>
+                  <option value="enviado">Enviado</option>
+                  <option value="cancelado">Cancelado</option>
+                </select>
+              </div>
             </div>
-          ) : pedidos.length === 0 ? (
-            <div className={styles.empty}>No hay pedidos aún.</div>
-          ) : (
-            <div className={styles.pedidosList}>
-              {pedidos.map(p => (
-                <div key={p.id} className={styles.pedidoRow}>
-                  <div className={styles.pedidoTop}>
-                    <div>
-                      <span className={styles.pedidoId}>Pedido #{p.id}</span>
-                      <span className={styles.pedidoFecha}>{new Date(p.fecha).toLocaleDateString('es-ES')}</span>
-                    </div>
-                    <span className={`${styles.estado} ${styles[`estado_${p.estado?.toLowerCase()}`]}`}>
-                      {p.estado}
-                    </span>
-                  </div>
-                  <div className={styles.pedidoLineas}>
-                    {p.lineas?.map((l, i) => (
-                      <div key={i} className={styles.linea}>
-                        <span>{l.productoNombre || `Producto #${l.productoId}`}</span>
-                        <span className={styles.lineaQty}>x{l.cantidad}</span>
-                        <span className={styles.lineaPrecio}>{(l.precioUnitario * l.cantidad).toFixed(2).replace('.',',')} €</span>
-                      </div>
-                    ))}
-                  </div>
-                  {p.usuarioEmail && (
-                    <div className={styles.pedidoCliente}>Cliente: {p.usuarioEmail}</div>
-                  )}
+            <div className={styles.pedidoLineas}>
+              {p.lineas?.map((l, i) => (
+                <div key={i} className={styles.linea}>
+                  <span>{l.productoNombre || `Producto #${l.productoId}`}</span>
+                  <span className={styles.lineaQty}>x{l.cantidad}</span>
+                  <span className={styles.lineaPrecio}>{(l.precioUnitario * l.cantidad).toFixed(2).replace('.',',')} €</span>
                 </div>
               ))}
             </div>
-          )}
-        </div>
-      )}
+            {p.direccion && <div className={styles.pedidoCliente}>📍 {p.direccion}</div>}
+            {p.telefono && <div className={styles.pedidoCliente}>📞 {p.telefono}</div>}
+            {p.emailCliente && <div className={styles.pedidoCliente}>✉️ {p.emailCliente}</div>}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+)}
     </main>
   )
 }
