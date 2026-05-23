@@ -15,3 +15,9 @@ appsettings.Development.json
 
 # .NET
 global.json 
+
+# Config sensible backend
+TattooStudio.API/appsettings.json
+TattooStudio.API/appsettings.Development.json
+TattooStudio.API/bin/
+TattooStudio.API/obj/

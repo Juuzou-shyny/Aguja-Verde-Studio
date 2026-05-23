@@ -37,6 +37,9 @@ public class Pedido
     [ForeignKey("UsuarioId")]
     public Usuario? Usuario { get; set; }
 
+    [Column("telefono")]
+    public string Telefono { get; set; } = string.Empty;
+
     // Navegación
     public ICollection<LineaPedido> Lineas { get; set; } = new List<LineaPedido>();
 }
