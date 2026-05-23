@@ -37,15 +37,28 @@ export async function getPedidos(token) {
   return res.json()
 }
 
-export async function crearPedido({ lineas, token }) {
-  const res = await fetch(`${BASE}/pedidos`, {
+export async function crearPedido({ direccion, telefono, lineas, token }) {
+  const res = await fetch('/api/pedidos', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ lineas }),
+    body: JSON.stringify({ direccion, telefono, lineas }),
   })
   if (!res.ok) throw new Error('Error al crear el pedido')
+  return res.json()
+}
+
+export async function crearSesionPago({ direccion, telefono, lineas, token }) {
+  const res = await fetch('/api/pagos/crear-sesion', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ direccion, telefono, lineas }),
+  })
+  if (!res.ok) throw new Error('Error al crear la sesión de pago')
   return res.json()
 }

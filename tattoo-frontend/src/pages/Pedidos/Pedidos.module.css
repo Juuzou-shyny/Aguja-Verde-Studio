@@ -71,13 +71,21 @@
   align-items: center;
   gap: 16px;
 }
-.lineaNombre {
+.pedidoId {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(240,235,227,0.7);
-  flex: 1;
+  color: var(--gold);
+  display: block;
+}
+
+.pedidoFecha {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: #317007;
+  margin-top: 4px;
+  display: block;
 }
 .lineaQty {
   font-family: var(--font-mono);

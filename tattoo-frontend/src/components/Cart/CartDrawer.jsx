@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import { useApp } from '../../context/AppContext'
 import Button from '../Button/Button'
+import CheckoutModal from '../Checkout/CheckoutModal'
 import styles from './Cart.module.css'
 
 export default function CartDrawer() {
-  const { cart, cartOpen, cartTotal, setCartOpen, updateQty, removeFromCart, user } = useApp()
+  const { cart, cartOpen, cartTotal, setCartOpen, updateQty, removeFromCart } = useApp()
+  const [checkoutOpen, setCheckoutOpen] = useState(false)
 
   return (
     <>
@@ -51,11 +54,18 @@ export default function CartDrawer() {
             <span className={styles.totalLabel}>Total</span>
             <span className={styles.totalAmount}>{cartTotal.toFixed(2).replace('.', ',')} €</span>
           </div>
-          <Button variant="primary" fullWidth disabled={cart.length === 0}>
+          <Button
+            variant="primary"
+            fullWidth
+            disabled={cart.length === 0}
+            onClick={() => setCheckoutOpen(true)}
+          >
             Finalizar compra
           </Button>
         </div>
       </div>
+
+      <CheckoutModal open={checkoutOpen} onClose={() => setCheckoutOpen(false)} />
     </>
   )
 }
