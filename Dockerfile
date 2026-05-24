@@ -3,6 +3,7 @@ FROM node:20-alpine AS frontend-build
 WORKDIR /frontend
 COPY tattoo-frontend/package*.json ./
 RUN npm install
+RUN chmod -R +x node_modules/.bin
 COPY tattoo-frontend ./
 RUN npm run build
 
