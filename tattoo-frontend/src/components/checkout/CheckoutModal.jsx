@@ -76,7 +76,7 @@ export default function CheckoutModal({ open, onClose }) {
           </div>
         </div>
 
-        {/* Formulario */}
+        {/* Formulario de compra*/}
         <div className={styles.form}>
           <Input
             label="Dirección de envío"
