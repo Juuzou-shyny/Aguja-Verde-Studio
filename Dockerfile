@@ -2,9 +2,9 @@
 FROM node:20-alpine AS frontend-build
 WORKDIR /frontend
 COPY tattoo-frontend/package*.json ./
-RUN npm install
 COPY tattoo-frontend ./
-RUN npx vite build
+RUN npm ci
+RUN ./node_modules/.bin/vite build
 
 # Etapa 2: compilar el backend
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
