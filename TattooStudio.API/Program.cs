@@ -88,6 +88,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Aplicar migraciones automáticamente al arrancar
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
 app.UseHttpsRedirection();
 //app.UseStaticFiles(); // Sirve los archivos estáticos de wwwroot
 app.UseAuthentication();  // ← primero autenticación
