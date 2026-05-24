@@ -21,3 +21,8 @@ TattooStudio.API/appsettings.json
 TattooStudio.API/appsettings.Development.json
 TattooStudio.API/bin/
 TattooStudio.API/obj/
+
+tattoo-frontend/node_modules
+tattoo-frontend/dist
+TattooStudio.API/bin
+TattooStudio.API/obj

@@ -40,3 +40,6 @@ Thumbs.db
 .parcel-cache/
 .eslintcache
 *.tsbuildinfo
+
+node_modules
+dist
