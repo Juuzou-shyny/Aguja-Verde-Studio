@@ -1,7 +1,7 @@
 {
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultConnection": "Server=127.0.0.1;Port=3306;Database=tattoo_studio;User=TU_USUARIO;Password=TU_PASSWORD;"
+    "DefaultConnection": "Server=b5xo020qp9cjbpe0wze6appn;Port=3306;Database=tattoo_studio;User=admin;Password=AgujaVerde2024!;"
   },
   "Jwt": {
     "Key": "CLAVE_SECRETA_MINIMO_32_CARACTERES",
