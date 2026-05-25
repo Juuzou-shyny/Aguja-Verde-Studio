@@ -30,7 +30,7 @@ export async function getProductos() {
 }
 
 export async function getPedidos(token) {
-  const res = await fetch(`${BASE}/pedidos`, {
+  const res = await fetch(`${BASE}/pedidos/mis-pedidos`, {
     headers: { Authorization: `Bearer ${token}` },
   })
   if (!res.ok) throw new Error('Error cargando pedidos')
