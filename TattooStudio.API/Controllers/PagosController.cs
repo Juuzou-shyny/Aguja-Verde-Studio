@@ -162,8 +162,9 @@ public class PagosController : ControllerBase
 
     // DTOs
     public record LineaSesionRequest(int ProductoId, int Cantidad);
-public record SesionPagoRequest(
-    string Direccion,
-    string Telefono,
-    List<LineaSesionRequest> Lineas
-);
+    public record SesionPagoRequest(
+        string Direccion,
+        string Telefono,
+        List<LineaSesionRequest> Lineas
+    );
+}
