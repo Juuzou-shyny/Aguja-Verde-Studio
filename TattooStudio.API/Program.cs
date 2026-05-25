@@ -99,5 +99,6 @@ app.UseHttpsRedirection();
 //app.UseStaticFiles(); // Sirve los archivos estáticos de wwwroot
 app.UseAuthentication();  // ← primero autenticación
 app.UseAuthorization();   // ← luego autorización
+app.MapFallbackToFile("index.html");
 app.MapControllers();
 app.Run();
