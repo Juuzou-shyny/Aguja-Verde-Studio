@@ -49,7 +49,7 @@ public class PagosController : ControllerBase
                     {
                         Name = producto.Nombre,
                         Images = producto.ImagenUrl != null
-                            ? new List<string> { $"http://localhost:5087{producto.ImagenUrl}" }
+                            ? new List<string> { $"http://dd778m1o5ady2mlcnncvjctm.178.105.206.238.sslip.io{producto.ImagenUrl}" }
                             : null
                     }
                 },
@@ -62,8 +62,8 @@ public class PagosController : ControllerBase
             PaymentMethodTypes = new List<string> { "card" },
             LineItems = lineItems,
             Mode = "payment",
-            SuccessUrl = "http://localhost:5173/pago-exitoso?session_id={CHECKOUT_SESSION_ID}",
-            CancelUrl = "http://localhost:5173/pago-cancelado",
+            SuccessUrl = "http://dd778m1o5ady2mlcnncvjctm.178.105.206.238.sslip.io/pago-exitoso?session_id={CHECKOUT_SESSION_ID}",
+            CancelUrl = "http://dd778m1o5ady2mlcnncvjctm.178.105.206.238.sslip.io/pago-cancelado",
             CustomerEmail = usuario.Email,
             Metadata = new Dictionary<string, string>
             {
