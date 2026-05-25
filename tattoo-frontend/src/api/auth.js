@@ -16,6 +16,12 @@ export async function registerRequest({ name, email, password }) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ nombre: name, email, password }),
   })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.message || 'Error al registrarse')
+  }
+  return res.json()
+}
 
 export async function getProductos() {
   const res = await fetch(`${BASE}/productos`)
