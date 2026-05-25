@@ -81,6 +81,7 @@ public class PagosController : ControllerBase
 
     // POST api/pagos/webhook — Stripe llama aquí al completar el pago
     [HttpPost("webhook")]
+    [DisableRequestSizeLimit]
     public async Task<IActionResult> Webhook()
     {
         var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
@@ -89,35 +90,41 @@ public class PagosController : ControllerBase
         Event stripeEvent;
         try
         {
-            stripeEvent = string.IsNullOrEmpty(webhookSecret)
-                ? EventUtility.ParseEvent(json)
-                : EventUtility.ConstructEvent(json,
-                    Request.Headers["Stripe-Signature"], webhookSecret);
+            if (string.IsNullOrEmpty(webhookSecret))
+            {
+                stripeEvent = EventUtility.ParseEvent(json);
+            }
+            else
+            {
+                stripeEvent = EventUtility.ConstructEvent(
+                    json,
+                    Request.Headers["Stripe-Signature"],
+                    webhookSecret,
+                    throwOnApiVersionMismatch: false
+                );
+            }
         }
         catch (Exception e)
         {
+            Console.WriteLine($"Webhook error: {e.Message}");
             return BadRequest(new { mensaje = e.Message });
         }
 
-        if(stripeEvent.Type == "checkout.session.completed")
+        if (stripeEvent.Type == "checkout.session.completed")
         {
             var session = stripeEvent.Data.Object as Session;
             if (session == null) return Ok();
 
-            // Crear el pedido en la BD
             var usuarioId = int.Parse(session.Metadata["usuarioId"]);
             var usuario = await _db.Usuarios.FindAsync(usuarioId);
             if (usuario == null) return Ok();
 
-            // Obtener líneas del pedido desde Stripe
-            var sessionService = new SessionService();
             var lineItemService = new SessionLineItemService();
             var stripeLineas = await lineItemService.ListAsync(session.Id);
 
             var lineas = new List<TattooStudio.API.Models.LineaPedido>();
             foreach (var item in stripeLineas)
             {
-                // Buscar producto por nombre
                 var producto = await _db.Productos
                     .FirstOrDefaultAsync(p => p.Nombre == item.Description);
                 if (producto == null) continue;
@@ -127,9 +134,9 @@ public class PagosController : ControllerBase
                     ProductoId = producto.Id,
                     Cantidad = (int)item.Quantity,
                     PrecioUnitario = item.Price?.UnitAmount != null
-                            ? item.Price.UnitAmount.Value / 100m
-                            : producto.Precio
-                                        });
+                        ? item.Price.UnitAmount.Value / 100m
+                        : producto.Precio
+                });
             }
 
             var pedido = new TattooStudio.API.Models.Pedido
@@ -152,10 +159,9 @@ public class PagosController : ControllerBase
 
         return Ok();
     }
-}
 
-// DTOs
-public record LineaSesionRequest(int ProductoId, int Cantidad);
+    // DTOs
+    public record LineaSesionRequest(int ProductoId, int Cantidad);
 public record SesionPagoRequest(
     string Direccion,
     string Telefono,
