@@ -21,12 +21,6 @@ public class AuthController : ControllerBase
         _config = config;
     }
 
-    [HttpGet("hash/{password}")]
-    public IActionResult GetHash(string password)
-    {
-        return Ok(BCrypt.Net.BCrypt.HashPassword(password));
-    }
-
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
