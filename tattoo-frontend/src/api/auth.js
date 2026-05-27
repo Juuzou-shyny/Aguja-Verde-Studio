@@ -37,6 +37,14 @@ export async function getPedidos(token) {
   return res.json()
 }
 
+export async function getTodosPedidos(token) {
+  const res = await fetch(`${BASE}/pedidos`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Error cargando pedidos')
+  return res.json()
+}
+
 export async function crearPedido({ direccion, telefono, lineas, token }) {
   const res = await fetch('/api/pedidos', {
     method: 'POST',

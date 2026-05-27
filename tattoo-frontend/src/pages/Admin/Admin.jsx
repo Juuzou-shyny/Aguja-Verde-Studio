@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useApp } from '../../context/AppContext'
-import { getProductos, getPedidos } from '../../api/auth'
+import { getProductos, getTodosPedidos } from '../../api/auth'
 import styles from './Admin.module.css'
 
 const TALLAS_OPCIONES = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
@@ -34,7 +34,7 @@ export default function Admin() {
     try {
       const [prods, peds] = await Promise.all([
         getProductos(),
-        getPedidos(user.token)
+        getTodosPedidos(user.token) 
       ])
       setProductos(prods)
       setPedidos(peds)
