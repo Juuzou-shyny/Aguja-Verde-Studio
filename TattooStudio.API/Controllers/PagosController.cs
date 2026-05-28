@@ -54,7 +54,7 @@ public class PagosController : ControllerBase
                     }
                 },
                 Quantity = linea.Cantidad
-            });
+            })
         }
 
         var options = new SessionCreateOptions
@@ -73,10 +73,18 @@ public class PagosController : ControllerBase
             }
         };
 
-        var service = new SessionService();
-        var session = await service.CreateAsync(options);
-
-        return Ok(new { sessionUrl = session.Url, sessionId = session.Id });
+        try
+        {
+            var service = new SessionService();
+            var session = await service.CreateAsync(options);
+            return Ok(new { sessionUrl = session.Url, sessionId = session.Id });
+        }
+        catch (StripeException ex)
+        {
+            Console.WriteLine($"[Stripe] Error: {ex.Message}");
+            return StatusCode(500, new { mensaje = ex.Message });
+        }
+        ;
     }
 
     // POST api/pagos/webhook — Stripe llama aquí al completar el pago

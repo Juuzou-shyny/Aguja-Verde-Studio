@@ -65,7 +65,10 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 // Stripe
-StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+var stripeKey = builder.Configuration["Stripe:SecretKey"]
+             ?? Environment.GetEnvironmentVariable("Stripe__SecretKey");
+Console.WriteLine($"[Stripe] Key cargada: {!string.IsNullOrEmpty(stripeKey)}");
+StripeConfiguration.ApiKey = stripeKey;
 var app = builder.Build();
 
 app.UseStaticFiles(new StaticFileOptions
